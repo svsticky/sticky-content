@@ -1,6 +1,6 @@
 {
   "name": "@svsticky/content",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "Type definitions for content types provided by Sticky's content management system.",
   "homepage": "https://github.com/svsticky/sticky-content#readme",
   "bugs": {
