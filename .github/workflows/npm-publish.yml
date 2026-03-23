@@ -21,5 +21,11 @@ jobs:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
+      - run: npm version from-git
+        working-directory: types-package
+      - run: "git add types-package && git commit -m \"bump: {{ github.ref_name }}\""
+      - run: git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm ci && npm publish
         working-directory: types-package
