@@ -7,7 +7,7 @@ on:
 
 permissions:
   id-token: write  # Required for OIDC
-  contents: read
+  contents: write
 
 jobs:
   publish:
@@ -15,17 +15,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-
+        with:
+          ref: main
+          fetch-tags: true
       - uses: actions/setup-node@v6
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
-      - run: npm version from-git
+      - name: Set git credentials
+        run: |
+          git fetch --tags
+          git config --global user.name "svsticky-deploy[bot]"
+          git config --global user.email "22499180+svsticky-deploy[bot]@users.noreply.github.com"
+      - name: Bump version based off tag name
+        run: |
+          npm config set git-tag-version false
+          npm version from-git -m "bump: %s"
+          git push
         working-directory: types-package
-      - run: "git add types-package && git commit -m \"bump: {{ github.ref_name }}\""
-      - run: git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm ci && npm publish
+      - name: Install dependencies for payload
+        run: npm ci
+      - name: Publish generated types from payload to npm 
+        run: |
+          npm ci
+          npm publish
         working-directory: types-package
