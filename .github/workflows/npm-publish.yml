@@ -30,7 +30,9 @@ jobs:
       - name: Bump version based off tag name
         run: |
           npm config set git-tag-version false
-          npm version from-git -m "bump: %s"
+          npm version from-git
+          git add .
+          git commit -m "bump: {{ github.ref_name }}"
           git push
         working-directory: types-package
         env:
