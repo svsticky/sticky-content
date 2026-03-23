@@ -25,14 +25,14 @@ jobs:
       - name: Set git credentials
         run: |
           git fetch --tags
-          git config --global user.name "svsticky-deploy[bot]"
-          git config --global user.email "22499180+svsticky-deploy[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Bump version based off tag name
         run: |
           npm config set git-tag-version false
           npm version from-git
           git add .
-          git commit -m "bump: {{ github.ref_name }}"
+          git commit -m "bump: $GITHUB_REF_NAME"
           git push
         working-directory: types-package
         env:
