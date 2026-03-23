@@ -1,10 +1,21 @@
 {
   "name": "@svsticky/content",
   "version": "1.0.0",
-  "description": "A blank template to get started with Payload 3.0",
+  "description": "Type definitions for content types provided by Sticky's content management system.",
+  "homepage": "https://github.com/svsticky/sticky-content#readme",
+  "bugs": {
+    "url": "https://github.com/svsticky/sticky-content/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/svsticky/sticky-content.git"
+  },
   "license": "MIT",
+  "author": "Job Vonk <sticcpistt@icloud.com>",
   "type": "module",
-  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/payload-types.ts"
+  },
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
@@ -16,7 +27,8 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --no-experimental-strip-types\" pnpm exec playwright test",
-    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
+    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
+    "prepublish": "npm run generate:types"
   },
   "dependencies": {
     "@nouance/payload-better-fields-plugin": "^2.0.2",

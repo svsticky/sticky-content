@@ -1,0 +1,27 @@
+{
+  "name": "@svsticky/content",
+  "version": "1.0.2",
+  "description": "Type definitions for content types provided by Sticky's content management system.",
+  "homepage": "https://github.com/svsticky/sticky-content#readme",
+  "bugs": {
+    "url": "https://github.com/svsticky/sticky-content/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/svsticky/sticky-content.git"
+  },
+  "license": "MIT",
+  "author": "Job Vonk <sticcpistt@icloud.com>",
+  "type": "module",
+  "main": "dist/index.d.ts",
+  "scripts": {
+    "prepublishOnly": "sh ./prepublishOnly.sh",
+    "build": "tsc"
+  },
+  "peerDependencies": {
+    "payload": "^3.80.0"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.2"
+  }
+}

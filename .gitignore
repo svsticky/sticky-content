@@ -52,3 +52,4 @@ node_modules/
 content.db
 
 src/seeds/assets/*.jpg
+dist
