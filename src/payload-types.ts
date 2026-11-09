@@ -60,6 +60,60 @@ export type SupportedTimezones =
   | 'Pacific/Noumea'
   | 'Pacific/Auckland'
   | 'Pacific/Fiji';
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LexicalNodes_005CAB4B".
+ */
+export type LexicalNodes_005CAB4B =
+  | SerializedTextNode
+  | SerializedTabNode
+  | SerializedLineBreakNode
+  | SerializedParagraphNode<LexicalNodes_005CAB4B>
+  | SerializedTableNode<LexicalNodes_005CAB4B>
+  | SerializedTableCellNode<LexicalNodes_005CAB4B>
+  | SerializedTableRowNode<LexicalNodes_005CAB4B>
+  | SerializedUploadNode<'media'>
+  | SerializedHorizontalRuleNode
+  | SerializedQuoteNode<LexicalNodes_005CAB4B>
+  | SerializedRelationshipNode<
+      | 'users'
+      | 'person'
+      | 'supermentor'
+      | 'faq-question'
+      | 'pages'
+      | 'partners'
+      | 'committees'
+      | 'boards'
+      | 'vacancies'
+      | 'news-items'
+      | 'societies'
+      | 'programmes'
+      | 'job-types'
+      | 'quotes'
+      | 'board-message'
+      | 'ads'
+      | 'payload-kv'
+      | 'payload-locked-documents'
+      | 'payload-preferences'
+      | 'payload-migrations'
+    >
+  | SerializedAutoLinkNode<LexicalNodes_005CAB4B, LexicalLinkFields>
+  | SerializedLinkNode<LexicalNodes_005CAB4B, LexicalLinkFields>
+  | SerializedListNode<LexicalNodes_005CAB4B>
+  | SerializedListItemNode<LexicalNodes_005CAB4B>
+  | SerializedHeadingNode<LexicalNodes_005CAB4B>;
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LexicalNodes_3DE324E4".
+ */
+export type LexicalNodes_3DE324E4 =
+  | SerializedTextNode
+  | SerializedTabNode
+  | SerializedLineBreakNode
+  | SerializedParagraphNode<LexicalNodes_3DE324E4>
+  | SerializedListNode<LexicalNodes_3DE324E4>
+  | SerializedListItemNode<LexicalNodes_3DE324E4>
+  | SerializedHeadingNode<LexicalNodes_3DE324E4, 'h2' | 'h3' | 'h4'>;
 
 export interface Config {
   auth: {
@@ -69,29 +123,85 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    person: Person;
+    supermentor: Supermentor;
+    'faq-question': FaqQuestion;
+    pages: Page;
+    partners: Partner;
+    committees: Committee;
+    boards: Board;
+    vacancies: Vacancy;
+    'news-items': NewsItem;
+    societies: Society;
+    programmes: Programme;
+    'job-types': JobType;
+    quotes: Quote;
+    'board-message': BoardMessage;
+    ads: Ad;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
+    'payload-llm-instructions': PayloadLlmInstruction;
   };
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    person: PersonSelect<false> | PersonSelect<true>;
+    supermentor: SupermentorSelect<false> | SupermentorSelect<true>;
+    'faq-question': FaqQuestionSelect<false> | FaqQuestionSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    partners: PartnersSelect<false> | PartnersSelect<true>;
+    committees: CommitteesSelect<false> | CommitteesSelect<true>;
+    boards: BoardsSelect<false> | BoardsSelect<true>;
+    vacancies: VacanciesSelect<false> | VacanciesSelect<true>;
+    'news-items': NewsItemsSelect<false> | NewsItemsSelect<true>;
+    societies: SocietiesSelect<false> | SocietiesSelect<true>;
+    programmes: ProgrammesSelect<false> | ProgrammesSelect<true>;
+    'job-types': JobTypesSelect<false> | JobTypesSelect<true>;
+    quotes: QuotesSelect<false> | QuotesSelect<true>;
+    'board-message': BoardMessageSelect<false> | BoardMessageSelect<true>;
+    ads: AdsSelect<false> | AdsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
+    'payload-llm-instructions': PayloadLlmInstructionsSelect<false> | PayloadLlmInstructionsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
-  fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
-  locale: null;
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('nl' | 'en') | ('nl' | 'en')[];
+  globals: {
+    hero: Hero1;
+    association: Association;
+    contact: Contact;
+    signup: Signup;
+    theme: Theme;
+    faq: Faq;
+    'small-print': SmallPrint;
+    information: Information;
+    navigation: Navigation;
+  };
+  globalsSelect: {
+    hero: HeroSelect<false> | HeroSelect<true>;
+    association: AssociationSelect<false> | AssociationSelect<true>;
+    contact: ContactSelect<false> | ContactSelect<true>;
+    signup: SignupSelect<false> | SignupSelect<true>;
+    theme: ThemeSelect<false> | ThemeSelect<true>;
+    faq: FaqSelect<false> | FaqSelect<true>;
+    'small-print': SmallPrintSelect<false> | SmallPrintSelect<true>;
+    information: InformationSelect<false> | InformationSelect<true>;
+    navigation: NavigationSelect<false> | NavigationSelect<true>;
+  };
+  locale: 'nl' | 'en';
   widgets: {
+    welcome: WelcomeWidget;
     collections: CollectionsWidget;
+    'collection-query': CollectionQueryWidget;
+    activity: ActivityWidget;
+    'upload-dropzone': UploadDropzoneWidget;
   };
   user: User;
   jobs: {
@@ -122,9 +232,21 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
+  permissions: 'Introcommissie' | 'Bestuur' | 'XCom';
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
+  apiKey?: string | null;
+  apiKeyLast4?: string | null;
+  apiKeyIndex?: string | null;
   email: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;
@@ -138,6 +260,8 @@ export interface User {
         id: string;
         createdAt?: string | null;
         expiresAt: string;
+        refreshCount?: number | null;
+        refreshedAt?: string | null;
       }[]
     | null;
   password?: string | null;
@@ -148,8 +272,16 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
-  alt: string;
+  id: number;
+  alt?: string | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -159,15 +291,861 @@ export interface Media {
   filesize?: number | null;
   width?: number | null;
   height?: number | null;
+  original?: {
+    filename?: string | null;
+    url?: string | null;
+    mimeType?: string | null;
+    filesize?: number | null;
+    width?: number | null;
+    height?: number | null;
+    prefix?: string | null;
+    _objectKey?: string | null;
+  };
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "person".
+ */
+export interface Person {
+  id: number;
+  /**
+   * Name of the person
+   */
+  name: string;
+  /**
+   * Email for the person
+   */
+  email?: string | null;
+  /**
+   * Telephone number for a person
+   */
+  phone: string;
+  role: ('Secretaris' | 'Voorzitter' | 'Vertrouwenscontactpersoon')[];
+  photo: number | Media;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "supermentor".
+ */
+export interface Supermentor {
+  id: number;
+  name: string;
+  picture: number | Media;
+  content: LexicalRichText<LexicalNodes_005CAB4B>;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq-question".
+ */
+export interface FaqQuestion {
+  id: number;
+  question: string;
+  answer: LexicalRichText<LexicalNodes_005CAB4B>;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  slug: string;
+  description?: string | null;
+  body?:
+    | (
+        | Title
+        | RichText
+        | Separator
+        | CommitteeOverview
+        | PartnerOverview
+        | VacancyOverview
+        | NewsOverview
+        | SocietyOverview
+        | CurrentBoard
+        | OldBoards
+        | Activities
+        | LinksPage
+        | Timeline
+        | LvvPage
+        | ContactGrid
+        | BrandingColour
+        | BrandingLogos
+        | BrandingPoster
+        | BrandingTwocol
+        | Promotion
+        | Hero
+        | FeaturedPartnerBanner
+        | StatsSection
+        | InfoColumns
+        | PartnerCarousel
+        | NewsCarousel
+        | ActivitiesCarousel
+        | VcpPage
+      )[]
+    | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Title".
+ */
+export interface Title {
+  title: string;
+  level?: ('1' | '2' | '3' | '4' | '5' | '6') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'title';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RichText".
+ */
+export interface RichText {
+  body?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+  type?: ('none' | 'subtitle') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'rich-text';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Separator".
+ */
+export interface Separator {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'separator';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CommitteeOverview".
+ */
+export interface CommitteeOverview {
+  type: 'com' | 'wer';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'committee-overview';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PartnerOverview".
+ */
+export interface PartnerOverview {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'partner-overview';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VacancyOverview".
+ */
+export interface VacancyOverview {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'vacancy-overview';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewsOverview".
+ */
+export interface NewsOverview {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'news-overview';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocietyOverview".
+ */
+export interface SocietyOverview {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'society-overview';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CurrentBoard".
+ */
+export interface CurrentBoard {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'current-board';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OldBoards".
+ */
+export interface OldBoards {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'old-boards';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Activities".
+ */
+export interface Activities {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'activities';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinksPage".
+ */
+export interface LinksPage {
+  links?:
+    | {
+        name: string;
+        url?: {
+          type?: ('internal' | 'external') | null;
+          page?: (number | null) | Page;
+          url?: string | null;
+        };
+        description?: string | null;
+        category?: string | null;
+        /**
+         * FontAwesome class, e.g. "fas fa-globe"
+         */
+        icon?: string | null;
+        /**
+         * Hex colour
+         */
+        iconColour?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'links-page';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Timeline".
+ */
+export interface Timeline {
+  items?:
+    | {
+        title: string;
+        date: string;
+        photo?: (number | null) | Media;
+        description?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+        isLustrum?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'timeline';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LvvPage".
+ */
+export interface LvvPage {
+  people?:
+    | {
+        name: string;
+        photo?: (number | null) | Media;
+        /**
+         * Year
+         */
+        since?: number | null;
+        body?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'lvv-page';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactGrid".
+ */
+export interface ContactGrid {
+  data?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+  visitAddress?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+  postalAddress?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+  people?:
+    | {
+        name: string;
+        title?: string | null;
+        email?: string | null;
+        phone?: string | null;
+        photo?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contact-grid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BrandingColour".
+ */
+export interface BrandingColour {
+  /**
+   * Hex colour
+   */
+  colour?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'branding-colour';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BrandingLogos".
+ */
+export interface BrandingLogos {
+  logoTypes?:
+    | {
+        name: string;
+        description?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+        blackLink?: string | null;
+        whiteLink?: string | null;
+        colourLink?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'branding-logos';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BrandingPoster".
+ */
+export interface BrandingPoster {
+  specs?:
+    | {
+        label: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'branding-poster';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BrandingTwocol".
+ */
+export interface BrandingTwocol {
+  column1?: (Title | RichText | PartneringReasons)[] | null;
+  column2?: (Title | RichText | CollaborationForm)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'branding-twocol';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PartneringReasons".
+ */
+export interface PartneringReasons {
+  reasons?:
+    | {
+        icon?: string | null;
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'partnering-reasons';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CollaborationForm".
+ */
+export interface CollaborationForm {
+  header?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'collaboration-form';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Promotion".
+ */
+export interface Promotion {
+  possibilities?:
+    | {
+        icon?: string | null;
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  sponsorDescription?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+  sponsoredActivities?:
+    | {
+        title: string;
+        description?: string | null;
+        photo?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'promotion';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Hero".
+ */
+export interface Hero {
+  body?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+  images?: (number | Media)[] | null;
+  buttons?: Button[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Button".
+ */
+export interface Button {
+  title: string;
+  link?: {
+    type?: ('internal' | 'external') | null;
+    page?: (number | null) | Page;
+    url?: string | null;
+  };
+  /**
+   * Icon name, e.g. "globe"
+   */
+  icon?: string | null;
+  iconLocation?: ('left' | 'right') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'button';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedPartnerBanner".
+ */
+export interface FeaturedPartnerBanner {
+  partnerName?: string | null;
+  link?: {
+    type?: ('internal' | 'external') | null;
+    page?: (number | null) | Page;
+    url?: string | null;
+  };
+  images?: (number | Media)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featured-partner-banner';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatsSection".
+ */
+export interface StatsSection {
+  /**
+   * Animation duration (ms)
+   */
+  duration?: number | null;
+  stats?: StatItem[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'stats-section';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatItem".
+ */
+export interface StatItem {
+  target: number;
+  unit: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'stat-item';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "InfoColumns".
+ */
+export interface InfoColumns {
+  drinksDay?: string | null;
+  drinksTime?: string | null;
+  drinksLocation?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'info-columns';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PartnerCarousel".
+ */
+export interface PartnerCarousel {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'partner-carousel';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewsCarousel".
+ */
+export interface NewsCarousel {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'news-carousel';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ActivitiesCarousel".
+ */
+export interface ActivitiesCarousel {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'activities-carousel';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VcpPage".
+ */
+export interface VcpPage {
+  body?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+  poster: number | Media;
+  people?:
+    | {
+        name: string;
+        email?: string | null;
+        phone?: string | null;
+        photo?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'vcp-page';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners".
+ */
+export interface Partner {
+  id: number;
+  name: string;
+  slug: string;
+  logo?: (number | null) | Media;
+  isMain?: boolean | null;
+  mainText?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+  body?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+  buttons?: Button[] | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "committees".
+ */
+export interface Committee {
+  id: number;
+  name: string;
+  slug: string;
+  type: 'com' | 'wer';
+  logo?: (number | null) | Media;
+  description?: string | null;
+  body?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "boards".
+ */
+export interface Board {
+  id: number;
+  boardNumber: number;
+  /**
+   * e.g. 2024-2025
+   */
+  year: string;
+  slug: string;
+  isCurrent?: boolean | null;
+  zinspreuk?: string | null;
+  /**
+   * Hex colour
+   */
+  colour?: string | null;
+  photo?: (number | null) | Media;
+  boardMembers?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+  members?:
+    | {
+        name: string;
+        function?: string | null;
+        photo?: (number | null) | Media;
+        bio?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+        linkedinUrl?: {
+          type?: ('internal' | 'external') | null;
+          page?: (number | null) | Page;
+          url?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vacancies".
+ */
+export interface Vacancy {
+  id: number;
+  name: string;
+  slug: string;
+  partner?: (number | Partner)[] | null;
+  types?: (number | JobType)[] | null;
+  studies?: (number | Programme)[] | null;
+  isFeatured?: boolean | null;
+  shortText?: string | null;
+  longText?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+  buttons?: Button[] | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-types".
+ */
+export interface JobType {
+  id: number;
+  name: string;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programmes".
+ */
+export interface Programme {
+  id: number;
+  name: string;
+  type: 'Bachelor' | 'Master';
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news-items".
+ */
+export interface NewsItem {
+  id: number;
+  title: string;
+  slug: string;
+  date: string;
+  image?: (number | null) | Media;
+  description?: string | null;
+  keywords?: string | null;
+  content?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "societies".
+ */
+export interface Society {
+  id: number;
+  name: string;
+  slug: string;
+  /**
+   * Hex colour
+   */
+  colour?: string | null;
+  logo?: (number | null) | Media;
+  photos?: (number | Media)[] | null;
+  shortText?: string | null;
+  body?: LexicalRichText<LexicalNodes_005CAB4B> | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Quotes from the members of Sticky
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quotes".
+ */
+export interface Quote {
+  id: number;
+  text: string;
+  person: string;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Messages from the board to all members
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "board-message".
+ */
+export interface BoardMessage {
+  id: number;
+  message: string;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Ads from companies
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ads".
+ */
+export interface Ad {
+  id: number;
+  poster: number | Media;
+  title?: string | null;
+  description?: string | null;
+  /**
+   * Is this a fullscreen horizontal ad (16:9) or a sidebar standing up (9:16) ad
+   */
+  fullscreen: boolean;
+  durationSec?: number | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: string;
+  id: number;
   key: string;
   data:
     | {
@@ -184,20 +1162,80 @@ export interface PayloadKv {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'person';
+        value: number | Person;
+      } | null)
+    | ({
+        relationTo: 'supermentor';
+        value: number | Supermentor;
+      } | null)
+    | ({
+        relationTo: 'faq-question';
+        value: number | FaqQuestion;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'partners';
+        value: number | Partner;
+      } | null)
+    | ({
+        relationTo: 'committees';
+        value: number | Committee;
+      } | null)
+    | ({
+        relationTo: 'boards';
+        value: number | Board;
+      } | null)
+    | ({
+        relationTo: 'vacancies';
+        value: number | Vacancy;
+      } | null)
+    | ({
+        relationTo: 'news-items';
+        value: number | NewsItem;
+      } | null)
+    | ({
+        relationTo: 'societies';
+        value: number | Society;
+      } | null)
+    | ({
+        relationTo: 'programmes';
+        value: number | Programme;
+      } | null)
+    | ({
+        relationTo: 'job-types';
+        value: number | JobType;
+      } | null)
+    | ({
+        relationTo: 'quotes';
+        value: number | Quote;
+      } | null)
+    | ({
+        relationTo: 'board-message';
+        value: number | BoardMessage;
+      } | null)
+    | ({
+        relationTo: 'ads';
+        value: number | Ad;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -207,10 +1245,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -230,9 +1268,31 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-llm-instructions".
+ */
+export interface PayloadLlmInstruction {
+  id: string;
+  entitySlug: string;
+  title?: string | null;
+  entityType: 'collection' | 'global';
+  additionalInstructions?: LexicalRichText<LexicalNodes_3DE324E4> | null;
+  systemInstructions?: LexicalRichText<LexicalNodes_3DE324E4> | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -241,8 +1301,14 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  permissions?: T;
+  createdBy?: T;
+  updatedBy?: T;
   updatedAt?: T;
   createdAt?: T;
+  apiKey?: T;
+  apiKeyLast4?: T;
+  apiKeyIndex?: T;
   email?: T;
   resetPasswordToken?: T;
   resetPasswordExpiration?: T;
@@ -257,6 +1323,8 @@ export interface UsersSelect<T extends boolean = true> {
         id?: T;
         createdAt?: T;
         expiresAt?: T;
+        refreshCount?: T;
+        refreshedAt?: T;
       };
 }
 /**
@@ -265,6 +1333,8 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  createdBy?: T;
+  updatedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -274,8 +1344,672 @@ export interface MediaSelect<T extends boolean = true> {
   filesize?: T;
   width?: T;
   height?: T;
+  original?:
+    | T
+    | {
+        filename?: T;
+        url?: T;
+        mimeType?: T;
+        filesize?: T;
+        width?: T;
+        height?: T;
+        prefix?: T;
+        _objectKey?: T;
+      };
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "person_select".
+ */
+export interface PersonSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  role?: T;
+  photo?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "supermentor_select".
+ */
+export interface SupermentorSelect<T extends boolean = true> {
+  name?: T;
+  picture?: T;
+  content?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq-question_select".
+ */
+export interface FaqQuestionSelect<T extends boolean = true> {
+  question?: T;
+  answer?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  body?:
+    | T
+    | {
+        title?:
+          | T
+          | {
+              title?: T;
+              level?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'rich-text'?:
+          | T
+          | {
+              body?: T;
+              type?: T;
+              id?: T;
+              blockName?: T;
+            };
+        separator?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        'committee-overview'?:
+          | T
+          | {
+              type?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'partner-overview'?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        'vacancy-overview'?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        'news-overview'?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        'society-overview'?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        'current-board'?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        'old-boards'?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        activities?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        'links-page'?:
+          | T
+          | {
+              links?:
+                | T
+                | {
+                    name?: T;
+                    url?:
+                      | T
+                      | {
+                          type?: T;
+                          page?: T;
+                          url?: T;
+                        };
+                    description?: T;
+                    category?: T;
+                    icon?: T;
+                    iconColour?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        timeline?:
+          | T
+          | {
+              items?:
+                | T
+                | {
+                    title?: T;
+                    date?: T;
+                    photo?: T;
+                    description?: T;
+                    isLustrum?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        'lvv-page'?:
+          | T
+          | {
+              people?:
+                | T
+                | {
+                    name?: T;
+                    photo?: T;
+                    since?: T;
+                    body?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        'contact-grid'?:
+          | T
+          | {
+              data?: T;
+              visitAddress?: T;
+              postalAddress?: T;
+              people?:
+                | T
+                | {
+                    name?: T;
+                    title?: T;
+                    email?: T;
+                    phone?: T;
+                    photo?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        'branding-colour'?:
+          | T
+          | {
+              colour?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'branding-logos'?:
+          | T
+          | {
+              logoTypes?:
+                | T
+                | {
+                    name?: T;
+                    description?: T;
+                    blackLink?: T;
+                    whiteLink?: T;
+                    colourLink?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        'branding-poster'?:
+          | T
+          | {
+              specs?:
+                | T
+                | {
+                    label?: T;
+                    value?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        'branding-twocol'?:
+          | T
+          | {
+              column1?:
+                | T
+                | {
+                    title?:
+                      | T
+                      | {
+                          title?: T;
+                          level?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    'rich-text'?:
+                      | T
+                      | {
+                          body?: T;
+                          type?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    'partnering-reasons'?:
+                      | T
+                      | {
+                          reasons?:
+                            | T
+                            | {
+                                icon?: T;
+                                title?: T;
+                                description?: T;
+                                id?: T;
+                              };
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              column2?:
+                | T
+                | {
+                    title?:
+                      | T
+                      | {
+                          title?: T;
+                          level?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    'rich-text'?:
+                      | T
+                      | {
+                          body?: T;
+                          type?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    'collaboration-form'?:
+                      | T
+                      | {
+                          header?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        promotion?:
+          | T
+          | {
+              possibilities?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              sponsorDescription?: T;
+              sponsoredActivities?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    photo?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        hero?:
+          | T
+          | {
+              body?: T;
+              images?: T;
+              buttons?:
+                | T
+                | {
+                    button?:
+                      | T
+                      | {
+                          title?: T;
+                          link?:
+                            | T
+                            | {
+                                type?: T;
+                                page?: T;
+                                url?: T;
+                              };
+                          icon?: T;
+                          iconLocation?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        'featured-partner-banner'?:
+          | T
+          | {
+              partnerName?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    page?: T;
+                    url?: T;
+                  };
+              images?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'stats-section'?:
+          | T
+          | {
+              duration?: T;
+              stats?:
+                | T
+                | {
+                    'stat-item'?:
+                      | T
+                      | {
+                          target?: T;
+                          unit?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        'info-columns'?:
+          | T
+          | {
+              drinksDay?: T;
+              drinksTime?: T;
+              drinksLocation?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'partner-carousel'?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        'news-carousel'?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        'activities-carousel'?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        'vcp-page'?:
+          | T
+          | {
+              body?: T;
+              poster?: T;
+              people?:
+                | T
+                | {
+                    name?: T;
+                    email?: T;
+                    phone?: T;
+                    photo?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners_select".
+ */
+export interface PartnersSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  logo?: T;
+  isMain?: T;
+  mainText?: T;
+  body?: T;
+  buttons?:
+    | T
+    | {
+        button?:
+          | T
+          | {
+              title?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    page?: T;
+                    url?: T;
+                  };
+              icon?: T;
+              iconLocation?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "committees_select".
+ */
+export interface CommitteesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  type?: T;
+  logo?: T;
+  description?: T;
+  body?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "boards_select".
+ */
+export interface BoardsSelect<T extends boolean = true> {
+  boardNumber?: T;
+  year?: T;
+  slug?: T;
+  isCurrent?: T;
+  zinspreuk?: T;
+  colour?: T;
+  photo?: T;
+  boardMembers?: T;
+  members?:
+    | T
+    | {
+        name?: T;
+        function?: T;
+        photo?: T;
+        bio?: T;
+        linkedinUrl?:
+          | T
+          | {
+              type?: T;
+              page?: T;
+              url?: T;
+            };
+        id?: T;
+      };
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vacancies_select".
+ */
+export interface VacanciesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  partner?: T;
+  types?: T;
+  studies?: T;
+  isFeatured?: T;
+  shortText?: T;
+  longText?: T;
+  buttons?:
+    | T
+    | {
+        button?:
+          | T
+          | {
+              title?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    page?: T;
+                    url?: T;
+                  };
+              icon?: T;
+              iconLocation?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news-items_select".
+ */
+export interface NewsItemsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  date?: T;
+  image?: T;
+  description?: T;
+  keywords?: T;
+  content?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "societies_select".
+ */
+export interface SocietiesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  colour?: T;
+  logo?: T;
+  photos?: T;
+  shortText?: T;
+  body?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programmes_select".
+ */
+export interface ProgrammesSelect<T extends boolean = true> {
+  name?: T;
+  type?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-types_select".
+ */
+export interface JobTypesSelect<T extends boolean = true> {
+  name?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quotes_select".
+ */
+export interface QuotesSelect<T extends boolean = true> {
+  text?: T;
+  person?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "board-message_select".
+ */
+export interface BoardMessageSelect<T extends boolean = true> {
+  message?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ads_select".
+ */
+export interface AdsSelect<T extends boolean = true> {
+  poster?: T;
+  title?: T;
+  description?: T;
+  fullscreen?: T;
+  durationSec?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -319,6 +2053,425 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-llm-instructions_select".
+ */
+export interface PayloadLlmInstructionsSelect<T extends boolean = true> {
+  id?: T;
+  entitySlug?: T;
+  title?: T;
+  entityType?: T;
+  additionalInstructions?: T;
+  systemInstructions?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * Top-most section on the page, just under the navigation.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero".
+ */
+export interface Hero1 {
+  id: number;
+  content: LexicalRichText<LexicalNodes_005CAB4B>;
+  pictures: (number | Media)[];
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Association section on the page
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "association".
+ */
+export interface Association {
+  id: number;
+  content: LexicalRichText<LexicalNodes_005CAB4B>;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Contact section on the page
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact".
+ */
+export interface Contact {
+  id: number;
+  contactContent: LexicalRichText<LexicalNodes_005CAB4B>;
+  contactPersons: (number | Person)[];
+  confidentialContent: LexicalRichText<LexicalNodes_005CAB4B>;
+  confidentialContactPersons: (number | Person)[];
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "signup".
+ */
+export interface Signup {
+  id: number;
+  content: LexicalRichText<LexicalNodes_005CAB4B>;
+  buttonContent: string;
+  buttonLink?: string | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "theme".
+ */
+export interface Theme {
+  id: number;
+  content: LexicalRichText<LexicalNodes_005CAB4B>;
+  reveal: LexicalRichText<LexicalNodes_005CAB4B>;
+  supermentorText: LexicalRichText<LexicalNodes_005CAB4B>;
+  supermentors?: (number | Supermentor)[] | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq".
+ */
+export interface Faq {
+  id: number;
+  questions: (number | FaqQuestion)[];
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "small-print".
+ */
+export interface SmallPrint {
+  id: number;
+  content: LexicalRichText<LexicalNodes_005CAB4B>;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "information".
+ */
+export interface Information {
+  id: number;
+  content: LexicalRichText<LexicalNodes_005CAB4B>;
+  images?: (number | Media)[] | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation".
+ */
+export interface Navigation {
+  id: number;
+  items?: (NavMenu | NavButton)[] | null;
+  buttons?:
+    | {
+        title: string;
+        link?: {
+          type?: ('internal' | 'external') | null;
+          page?: (number | null) | Page;
+          url?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NavMenu".
+ */
+export interface NavMenu {
+  title: string;
+  links?:
+    | {
+        title: string;
+        link?: {
+          type?: ('internal' | 'external') | null;
+          page?: (number | null) | Page;
+          url?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'nav-menu';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NavButton".
+ */
+export interface NavButton {
+  title: string;
+  link?: {
+    type?: ('internal' | 'external') | null;
+    page?: (number | null) | Page;
+    url?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'nav-button';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero_select".
+ */
+export interface HeroSelect<T extends boolean = true> {
+  content?: T;
+  pictures?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "association_select".
+ */
+export interface AssociationSelect<T extends boolean = true> {
+  content?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact_select".
+ */
+export interface ContactSelect<T extends boolean = true> {
+  contactContent?: T;
+  contactPersons?: T;
+  confidentialContent?: T;
+  confidentialContactPersons?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "signup_select".
+ */
+export interface SignupSelect<T extends boolean = true> {
+  content?: T;
+  buttonContent?: T;
+  buttonLink?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "theme_select".
+ */
+export interface ThemeSelect<T extends boolean = true> {
+  content?: T;
+  reveal?: T;
+  supermentorText?: T;
+  supermentors?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq_select".
+ */
+export interface FaqSelect<T extends boolean = true> {
+  questions?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "small-print_select".
+ */
+export interface SmallPrintSelect<T extends boolean = true> {
+  content?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "information_select".
+ */
+export interface InformationSelect<T extends boolean = true> {
+  content?: T;
+  images?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation_select".
+ */
+export interface NavigationSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        'nav-menu'?:
+          | T
+          | {
+              title?: T;
+              links?:
+                | T
+                | {
+                    title?: T;
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          page?: T;
+                          url?: T;
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        'nav-button'?:
+          | T
+          | {
+              title?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    page?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  buttons?:
+    | T
+    | {
+        title?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              page?: T;
+              url?: T;
+            };
+        id?: T;
+      };
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "welcome_widget".
+ */
+export interface WelcomeWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections_widget".
  */
 export interface CollectionsWidget {
@@ -329,10 +2482,253 @@ export interface CollectionsWidget {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collection-query_widget".
+ */
+export interface CollectionQueryWidget {
+  data?: {
+    title?: string | null;
+    relatedCollection:
+      | 'users'
+      | 'media'
+      | 'person'
+      | 'supermentor'
+      | 'faq-question'
+      | 'pages'
+      | 'partners'
+      | 'committees'
+      | 'boards'
+      | 'vacancies'
+      | 'news-items'
+      | 'societies'
+      | 'programmes'
+      | 'job-types'
+      | 'quotes'
+      | 'board-message'
+      | 'ads';
+    where?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    sortField?: string | null;
+    sortDirection?: ('asc' | 'desc') | null;
+    limit?: number | null;
+  };
+  width: 'x-small' | 'small' | 'medium' | 'large' | 'x-large' | 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activity_widget".
+ */
+export interface ActivityWidget {
+  data?: {
+    excludedCollections?:
+      | (
+          | 'users'
+          | 'media'
+          | 'person'
+          | 'supermentor'
+          | 'faq-question'
+          | 'pages'
+          | 'partners'
+          | 'committees'
+          | 'boards'
+          | 'vacancies'
+          | 'news-items'
+          | 'societies'
+          | 'programmes'
+          | 'job-types'
+          | 'quotes'
+          | 'board-message'
+          | 'ads'
+        )[]
+      | null;
+  };
+  width: 'small' | 'medium' | 'large' | 'x-large' | 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "upload-dropzone_widget".
+ */
+export interface UploadDropzoneWidget {
+  data?: {
+    excludedCollections?: 'media'[] | null;
+  };
+  width: 'x-small' | 'small' | 'medium' | 'large' | 'x-large' | 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {
   [k: string]: unknown;
+}
+
+/** @internal Core Lexical types — see @payloadcms/richtext-lexical. */
+export type LexicalElementFormat = 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+export type LexicalElementDirection = ('ltr' | 'rtl') | null;
+
+export interface SerializedLexicalElementBase<TChildren> {
+  children: TChildren[];
+  direction: LexicalElementDirection;
+  format: LexicalElementFormat;
+  indent: number;
+  textFormat?: number;
+  textStyle?: string;
+  /** @deprecated Ignored when loading. Typed as required only to match Lexical's types: rich text sent through the API, CLI or MCP may not contain it. */
+  version: number;
+}
+
+export type LexicalTextMode = 'normal' | 'token' | 'segmented';
+
+export interface SerializedTextNode {
+  type: 'text';
+  detail: number;
+  format: number;
+  mode: LexicalTextMode;
+  style: string;
+  text: string;
+  /** @deprecated Ignored when loading. Typed as required only to match Lexical's types: rich text sent through the API, CLI or MCP may not contain it. */
+  version: number;
+}
+
+export interface SerializedTabNode {
+  type: 'tab';
+  detail: number;
+  format: number;
+  mode: LexicalTextMode;
+  style: string;
+  text: string;
+  /** @deprecated Ignored when loading. Typed as required only to match Lexical's types: rich text sent through the API, CLI or MCP may not contain it. */
+  version: number;
+}
+
+export interface SerializedLineBreakNode {
+  type: 'linebreak';
+  /** @deprecated Ignored when loading. Typed as required only to match Lexical's types: rich text sent through the API, CLI or MCP may not contain it. */
+  version: number;
+}
+
+export interface SerializedParagraphNode<TChildren> extends SerializedLexicalElementBase<TChildren> {
+  type: 'paragraph';
+  textFormat: number;
+  textStyle: string;
+}
+
+export interface SerializedTableNode<TChildren> extends SerializedLexicalElementBase<TChildren> {
+  type: 'table';
+  colWidths?: number[];
+  frozenColumnCount?: number;
+  frozenRowCount?: number;
+  rowStriping?: boolean;
+}
+export interface SerializedTableRowNode<TChildren> extends SerializedLexicalElementBase<TChildren> {
+  type: 'tablerow';
+  height?: number;
+}
+export interface SerializedTableCellNode<TChildren> extends SerializedLexicalElementBase<TChildren> {
+  type: 'tablecell';
+  backgroundColor?: string | null;
+  colSpan?: number;
+  headerState: number;
+  rowSpan?: number;
+  verticalAlign?: string;
+  width?: number;
+}
+
+export type SerializedUploadNode<TSlugs extends keyof Config['collections'], TFields = { [k: string]: unknown }> = {
+  type: 'upload';
+  format: LexicalElementFormat;
+  id: string;
+  /** @deprecated Ignored when loading. Typed as required only to match Lexical's types: rich text sent through the API, CLI or MCP may not contain it. */
+  version: number;
+  fields: TFields;
+} & {
+  [TSlug in TSlugs]: {
+    relationTo: TSlug;
+    value: Config['collections'][TSlug]['id'] | Config['collections'][TSlug];
+  };
+}[TSlugs];
+
+export interface SerializedHorizontalRuleNode {
+  type: 'horizontalrule';
+  /** @deprecated Ignored when loading. Typed as required only to match Lexical's types: rich text sent through the API, CLI or MCP may not contain it. */
+  version: number;
+}
+
+export interface SerializedQuoteNode<TChildren> extends SerializedLexicalElementBase<TChildren> {
+  type: 'quote';
+}
+
+export type SerializedRelationshipNode<TSlugs extends keyof Config['collections']> = {
+  type: 'relationship';
+  format: LexicalElementFormat;
+  /** @deprecated Ignored when loading. Typed as required only to match Lexical's types: rich text sent through the API, CLI or MCP may not contain it. */
+  version: number;
+} & {
+  [TSlug in TSlugs]: {
+    relationTo: TSlug;
+    value: Config['collections'][TSlug]['id'] | Config['collections'][TSlug];
+  };
+}[TSlugs];
+
+export interface LexicalLinkFields {
+  [k: string]: unknown;
+  doc?: {
+    relationTo: string;
+    value: Config['db']['defaultIDType'] | { [k: string]: unknown; id: Config['db']['defaultIDType'] };
+  } | null;
+  linkType: 'custom' | 'internal';
+  newTab: boolean;
+  url?: string;
+}
+export interface SerializedLinkNode<TChildren, TFields = LexicalLinkFields> extends SerializedLexicalElementBase<TChildren> {
+  type: 'link';
+  fields: TFields;
+  id?: string;
+}
+export interface SerializedAutoLinkNode<TChildren, TFields = LexicalLinkFields> extends SerializedLexicalElementBase<TChildren> {
+  type: 'autolink';
+  fields: TFields;
+}
+
+export interface SerializedListNode<TChildren> extends SerializedLexicalElementBase<TChildren> {
+  type: 'list';
+  checked?: boolean;
+  listType: 'number' | 'bullet' | 'check';
+  start: number;
+  tag: 'ul' | 'ol';
+}
+
+export interface SerializedListItemNode<TChildren> extends SerializedLexicalElementBase<TChildren> {
+  type: 'listitem';
+  checked?: boolean;
+  value: number;
+}
+
+export interface SerializedHeadingNode<
+  TChildren,
+  TTag extends 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6',
+> extends SerializedLexicalElementBase<TChildren> {
+  type: 'heading';
+  tag: TTag;
+}
+
+/** Shape of a Lexical `richText` field. */
+export interface LexicalRichText<TNode> {
+  root: {
+    children: TNode[];
+    direction: LexicalElementDirection;
+    format: LexicalElementFormat;
+    indent: number;
+    type: 'root';
+    /** @deprecated Ignored when loading. Typed as required only to match Lexical's types: rich text sent through the API, CLI or MCP may not contain it. */
+    version: number;
+  };
 }
 
 
