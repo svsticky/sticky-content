@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DATABASE: sticky-content
+  payload:
+    build: .
+    ports:
+      - 3000:3000
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/sticky-content
+      PAYLOAD_SECRET: 7821c33ce796a8cfd2af13c5
+    depends_on:
+      - db
