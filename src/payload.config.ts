@@ -39,7 +39,6 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  cors: "*",
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
@@ -56,6 +55,6 @@ export default buildConfig({
     },
     transformers: [sharpTransformer({ sharp })],
   },
-  serverURL: "http://localhost:3000",
+  serverURL: process.env.SERVER_URL || "http://localhost:3000",
   graphQL: { disable: true }
 })
