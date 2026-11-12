@@ -66,5 +66,11 @@ export const collections: CollectionConfig[] = [
   Ads,
 ].map(coll => ({
   ...coll,
-  access: { read: onlyBoard, create: onlyBoard, delete: onlyBoard, update: onlyBoard, admin: onlyBoard }
+  access: {
+    read: () => true,  // These collections are public read access, since they need to be accessible in the browser
+    create: onlyBoard, // The rest of the operations are reserved for the board account(s).
+    delete: onlyBoard,
+    update: onlyBoard,
+    admin: onlyBoard
+  }
 }) as CollectionConfig);

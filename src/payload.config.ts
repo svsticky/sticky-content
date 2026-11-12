@@ -55,6 +55,7 @@ export default buildConfig({
     },
     transformers: [sharpTransformer({ sharp })],
   },
+  cors: process.env.NODE_ENV === "development" ? "*" : undefined,
   serverURL: process.env.SERVER_URL || "http://localhost:3000",
   graphQL: { disable: true }
 })

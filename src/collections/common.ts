@@ -26,10 +26,19 @@ export const Users: CollectionConfig = {
   ],
 };
 
+const permitBoardOrCreator: Access = async ({ req: { user }, data }) => {
+  if (user === null) return false;
+  return user.permissions === "Bestuur" || user.id === data?.created_by.id;
+}
+
 export const Media: CollectionConfig = {
   slug: 'media',
   upload: true,
-  access: { read: () => true },
+  access: {
+    read: () => true,
+    update: permitBoardOrCreator,
+    delete: permitBoardOrCreator
+  },
   fields: [{ name: 'alt', type: 'text', localized: true }],
 };
 
